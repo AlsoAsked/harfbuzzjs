@@ -117,26 +117,6 @@ function hbjs(instance) {
         return table_string;
       },
       /**
-       * Return variation axis infos
-       */
-      getAxisInfos: function() {
-        var axis = exports.malloc(64 * 32);
-        var c = exports.malloc(4);
-        heapu32[c / 4] = 64;
-        exports.hb_ot_var_get_axis_infos(ptr, 0, c, axis);
-        var result = {};
-        Array.from({ length: heapu32[c / 4] }).forEach(function (_, i) {
-          result[_hb_untag(heapu32[axis / 4 + i * 8 + 1])] = {
-            min: heapf32[axis / 4 + i * 8 + 4],
-            default: heapf32[axis / 4 + i * 8 + 5],
-            max: heapf32[axis / 4 + i * 8 + 6]
-          };
-        });
-        exports.free(c);
-        exports.free(axis);
-        return result;
-      },
-      /**
        * Return unicodes the face supports
        */
       collectUnicodes: function() {
@@ -216,20 +196,6 @@ function hbjs(instance) {
       **/
       setScale: function (xScale, yScale) {
         exports.hb_font_set_scale(ptr, xScale, yScale);
-      },
-      /**
-       * Set the font's variations.
-       * @param {object} variations Dictionary of variations to set
-       **/
-      setVariations: function (variations) {
-        var entries = Object.entries(variations);
-        var vars = exports.malloc(8 * entries.length);
-        entries.forEach(function (entry, i) {
-          heapu32[vars / 4 + i * 2 + 0] = hb_tag(entry[0]);
-          heapf32[vars / 4 + i * 2 + 1] = entry[1];
-        });
-        exports.hb_font_set_variations(ptr, vars, entries.length);
-        exports.free(vars);
       },
       /**
       * Free the object.
