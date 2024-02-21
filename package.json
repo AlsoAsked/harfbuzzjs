@@ -1,5 +1,5 @@
 {
-  "name": "harfbuzzjs",
+  "name": "@alsoasked/harfbuzzjs",
   "version": "0.3.4",
   "description": "Minimal version of HarfBuzz for JavaScript use",
   "main": "index.js",
