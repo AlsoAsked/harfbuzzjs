@@ -17,7 +17,6 @@ em++ \
 	--no-entry \
 	-s EXPORTED_FUNCTIONS=@hbjs.symbols \
 	-s INITIAL_MEMORY=65MB \
-	-s ALLOW_MEMORY_GROWTH \
 	-s FILESYSTEM=0 \
 	-s ENVIRONMENT=web \
 	-o hb.wasm \
