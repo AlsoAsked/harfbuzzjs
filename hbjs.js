@@ -172,10 +172,29 @@ function hbjs(instance) {
       return utf8Decoder.decode(array.slice(0, array.indexOf(0)));
     }
 
+    function extents() {
+      const extentsPtr = exports.malloc(12*4);
+      exports.hb_font_get_h_extents(ptr, extentsPtr);
+
+      const extentValues = new Uint8Array(exports.memory.buffer, extentsPtr, 12);
+
+      const extents = {
+        ascender: extentValues[0],
+        descender: extentValues[1],
+        line_gap: extentValues[2],
+      };
+
+      exports.free(extentsPtr);
+
+      return extents;
+    }
+
     return {
       ptr: ptr,
       glyphName: glyphName,
       glyphToPath: glyphToPath,
+      extents: extents,
+
       /**
       * Return a glyph as a JSON path string
       * based on format described on https://svgwg.org/specs/paths/#InterfaceSVGPathSegment
